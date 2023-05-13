@@ -1,7 +1,7 @@
 galaxy_info:
-  role_name: freeipa_server
+  role_name: nfs_client
   author: OsgiliathEnterprise
-  description: Wrapper role around freeipa-server role
+  description: Use freeipa capabilities to automount nfs
   company: Osgiliath
   namespace: tcharl
   # If the issue tracker for your role is not on github, uncomment the

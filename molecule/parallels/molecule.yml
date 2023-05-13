@@ -9,13 +9,13 @@ dependency:
 driver:
   name: vagrant
   provider:
-    name: virtualbox
+    name: parallels
 platforms:
   - name: consumer.osgiliath.test
-    box: fedora/38-cloud-base
+    box: tcharl/fedora-36-aarch64
     provider_options:
       cpus: 2
-      memory: 3096
+      memory: 2048
     interfaces:
       - type: dhcp
         # ip: "192.168.56.5"
@@ -24,10 +24,8 @@ platforms:
         # virtualbox__intnet: "internalnetwork"
     groups:
       - ipaservers
-    provider_raw_config_args:
-      - "customize ['storagectl', :id, '--name', 'IDE', '--hostiocache', 'on']"
   - name: datastore.osgiliath.test
-    box: fedora/38-cloud-base
+    box: tcharl/fedora-36-aarch64
     provider_options:
       cpus: 2
       memory: 2048
@@ -40,15 +38,15 @@ platforms:
     groups:
       - ipaclients
     provider_raw_config_args:
-      - "customize ['storagectl', :id, '--name', 'IDE', '--hostiocache', 'on']"
-    provider_override_args:
-      - "persistent_storage.enabled = true"
-      - "persistent_storage.location = 'molecule-volumes.vdi'"
-      - "persistent_storage.size = 10"
-      - "persistent_storage.mount = false"
-      - "persistent_storage.diskdevice = '/dev/sdb'"
+      - "customize ['set', :id, '--device-add', 'hdd', '--size', '840']"
 provisioner:
   name: ansible
+#  config_options:
+#    defaults:
+#      forks: 20
+#   ssh_connection:
+#     pipelining: true
+#      ssh_args: -o ControlMaster=auto -o ControlPersist=6000s
 verifier:
   name: testinfra
   env:
@@ -56,6 +54,7 @@ verifier:
   options:
     v: 1
 scenario:
+  name: parallels
   test_sequence:
     - dependency
     - cleanup

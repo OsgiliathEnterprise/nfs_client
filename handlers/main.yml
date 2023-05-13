@@ -1,0 +1,17 @@
+---
+# handlers file for lvm
+
+- name: Handler | reload-automount
+  ansible.builtin.shell: |
+    set -o pipefail && echo '{{ company_realm_password }}' | kinit admin > /dev/null
+    ipa-client-automount --uninstall
+    ipa-client-automount --location=default -U
+  listen: ansible-volumes | handler | reload-automount
+
+- name: Handler | refresh autofs
+  ansible.builtin.service:
+    name: "autofs"
+    state: restarted
+    enabled: True
+  become: true
+  listen: ansible-volumes | handler | reload-automount

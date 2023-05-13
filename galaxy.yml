@@ -1,16 +1,16 @@
 ---
 namespace: "tcharl"
-name: "freeipa_server"
+name: "nfs_client"
 version: "1.0.1"
-description: "Role on top of the marvelous Freeipa server role to configure in compliancy with the Osgiliath platform topology"
+description: "Use freeipa capabilities to automount nfs"
 
 authors:
   - "Charlie Mordant <cmordant1@gmail.com>"
 
-repository: "https://github.com/OsgiliathEnterprise/freeipa_server"
-documentation: "https://github.com/OsgiliathEnterprise/freeipa_server/blob/master/README.md"
-homepage: "https://github.com/OsgiliathEnterprise/freeipa_server"
-issues: "https://github.com/OsgiliathEnterprise/freeipa_server/issues"
+repository: "https://github.com/OsgiliathEnterprise/nfs_client"
+documentation: "https://github.com/OsgiliathEnterprise/nfs_client/blob/master/README.md"
+homepage: "https://github.com/OsgiliathEnterprise/nfs_client"
+issues: "https://github.com/OsgiliathEnterprise/nfs_client/issues"
 
 readme: "README.md"
 license:
@@ -18,3 +18,5 @@ license:
 tags:
   - "freeipa"
   - "freeipa-server"
+  - "nfs"
+  - "automount"

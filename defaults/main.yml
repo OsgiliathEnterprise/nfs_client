@@ -1,0 +1,9 @@
+---
+# defaults file for lvm
+
+idm_client_group: 'ipaclients'
+idm_group: 'ipaservers' # do not change: convention from the ipa roles
+datastore_firewall_zone: 'public'
+keytab_path: '/etc/krb5.keytab'
+standalone_role: True
+secure_logs: Yes

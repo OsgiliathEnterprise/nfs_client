@@ -5,3 +5,14 @@
   ansible.builtin.import_tasks: requirements.yml
   when:
     - standalone_role
+
+- name: Facts
+  ansible.builtin.include_tasks: facts.yml
+
+- name: Network file system client
+  ansible.builtin.include_tasks: nfs-client.yml
+  when:
+    - nfs_mountpoints is defined
+    - nfs_mountpoints | length > 0
+    - configure_nfs is defined
+    - configure_nfs

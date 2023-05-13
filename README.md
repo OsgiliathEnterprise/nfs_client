@@ -1,11 +1,11 @@
-Ansible SecureHost
+Ansible Nfs Client
 =========
 
-* Galaxy: [![Ansible Galaxy](https://img.shields.io/badge/galaxy-tcharl.freeipa_server-660198.svg?style=flat)](https://galaxy.ansible.com/tcharl/freeipa_server)
-* Lint, Tests & requirements: ![Molecule](https://github.com/OsgiliathEnterprise/freeipa_server/workflows/Molecule/badge.svg)
+* Galaxy: [![Ansible Galaxy](https://img.shields.io/badge/galaxy-tcharl.nfs_client-660198.svg?style=flat)](https://galaxy.ansible.com/tcharl/nfs_client)
+* Lint, Tests & requirements: ![Molecule](https://github.com/OsgiliathEnterprise/nfs_client/workflows/Molecule/badge.svg)
 * Chat: [![Join the chat at https://gitter.im/OsgiliathEnterprise/platform](https://badges.gitter.im/OsgiliathEnterprise/platform.svg)](https://gitter.im/OsgiliathEnterprise/platform?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Wrapper on top of Ansible freeipa server to configure it in a simple way
+Wrapper on top of Ansible freeipa server to configure automount on NFS client with Kerberos
 
 Requirements
 ------------
