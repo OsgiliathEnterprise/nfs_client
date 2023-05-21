@@ -9,7 +9,6 @@
         secure_logs: false
         preferred_nic: "eth1"
         company_domain: osgiliath.test
-        allow_dns_zone_overlap: True
         company_realm_password: '123ADMin'
         company_ad_password: '123ADmPass'
 - name: Expose NFS
