@@ -1,7 +1,7 @@
 ---
 
 - name: Nfs-client-automount-conf | activate sssd autofs
-  ansible.builtin.ini_file:
+  community.general.ini_file:
     path: /etc/sssd/sssd.conf
     section: sssd
     option: services
