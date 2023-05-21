@@ -32,5 +32,3 @@
     enabled: true
   become: true
   listen: nfs_client | handler | reload-sssd
-
-
