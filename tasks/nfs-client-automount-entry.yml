@@ -38,6 +38,5 @@
   delegate_to: "{{ groups[idm_group][0] }}" # the key was {{ hostname | default(volume_machine_hostname.stdout) }} but it was not really appealing for users
   no_log: "{{ secure_logs }}"
   failed_when: False
-  changed_when: False
-  notify: ansible-volumes | handler | reload-automount
+  notify: nfs_client | handler | reload-automount
   become: true

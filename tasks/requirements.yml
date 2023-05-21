@@ -1,6 +1,5 @@
 ---
 
-- name: Requirements | install freeipa_serv & configures client
+- name: Requirements | install freeipa and declare dns
   ansible.builtin.import_role:
-    name: tcharl.ansible_securehost
-  become: true
+    name: tcharl.ansible_nameserver

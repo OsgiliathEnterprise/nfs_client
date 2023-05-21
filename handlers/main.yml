@@ -6,7 +6,8 @@
     set -o pipefail && echo '{{ company_realm_password }}' | kinit admin > /dev/null
     ipa-client-automount --uninstall
     ipa-client-automount --location=default -U
-  listen: ansible-volumes | handler | reload-automount
+  become: true
+  listen: nfs_client | handler | reload-automount
 
 - name: Handler | refresh autofs
   ansible.builtin.service:
@@ -14,4 +15,22 @@
     state: restarted
     enabled: True
   become: true
-  listen: ansible-volumes | handler | reload-automount
+  listen: nfs_client | handler | reload-automount
+
+- name: Handler | refresh automount
+  ansible.builtin.shell: |
+    set -o pipefail && echo '{{ company_realm_password }}' | kinit admin > /dev/null
+    ipa-client-automount -U
+  failed_when: false
+  become: True
+  listen: nfs_client | handler | reload-automount
+
+- name: Handler | restart sssd after modifications
+  ansible.builtin.systemd:
+    name: "sssd"
+    state: restarted
+    enabled: true
+  become: true
+  listen: nfs_client | handler | reload-sssd
+
+

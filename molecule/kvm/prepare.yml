@@ -6,11 +6,10 @@
         name: tcharl.nfs_client
         tasks_from: requirements.yml
       vars:
-        preferred_nic: "eth1"
         company_domain: osgiliath.test
         company_realm_password: '123ADMin'
         company_ad_password: '123ADmPass'
-        ansible_become: Yes
+        allow_dns_zone_overlap: True
 - name: Expose NFS
   hosts: datastore.osgiliath.test
   vars:

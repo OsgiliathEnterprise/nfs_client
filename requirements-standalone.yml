@@ -3,10 +3,15 @@ roles:
   # Install a role from Ansible Galaxy.
   - name: robertdebock.bootstrap
   - name: robertdebock.core_dependencies
+  - name: tcharl.nfs_server
+  - name: tcharl.freeipa_server
+  - name: tcharl.fail2ban
+  - name: tcharl.etchost_append
+  - name: tcharl.ansible_volumes
+  - name: tcharl.ansible_nameserver
+  - name: tcharl.ansible_securehost
   - name: tcharl.ansible_routing
   - name: tcharl.ansible_hostname
-  - name: tcharl.ansible_securehost
-  - name: tcharl.nfs_server
   - name: robertdebock.fail2ban
   - name: robertdebock.epel
   - name: geerlingguy.ntp

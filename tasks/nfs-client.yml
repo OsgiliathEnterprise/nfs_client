@@ -17,13 +17,7 @@
   loop_control:
     loop_var: nfs_server
 
-- name: Nfs-client | automount
-  ansible.builtin.command: "ipa-client-automount -U"
-  failed_when: False
-  changed_when: False
-  become: True
-
-- name: Nfs-client | disable autofs # TODO test regularly if mountpoint works...
+- name: Nfs-client | start autofs
   ansible.builtin.systemd:
     name: "autofs"
     state: started
@@ -36,7 +30,6 @@
 #  loop_control:
 #    loop_var: nfs_server
 
-
 - name: Nfs-client | configure kerb ticket auto renewal
   ansible.builtin.lineinfile:
     path: /etc/sssd/sssd.conf
@@ -46,11 +39,5 @@
   with_items:
     - { regexp: '^krb5_renewable_lifetime = 50d', line: 'krb5_renewable_lifetime = 50d' }
     - { regexp: '^krb5_renew_interval = 3600', line: 'krb5_renew_interval = 3600' }
-  become: true
-
-- name: Nfs-client | restart sssd after modifications
-  ansible.builtin.systemd:
-    name: "sssd"
-    state: restarted
-    enabled: true
+  notify: nfs_client | handler | reload-sssd
   become: true
