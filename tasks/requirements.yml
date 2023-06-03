@@ -3,3 +3,5 @@
 - name: Requirements | install freeipa and declare dns
   ansible.builtin.import_role:
     name: tcharl.ansible_nameserver
+  tags:
+    - dependency

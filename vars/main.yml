@@ -1,0 +1,4 @@
+---
+
+idm_client_group: 'ipaclients'
+idm_group: 'ipaservers' # do not change: convention from the ipa roles
