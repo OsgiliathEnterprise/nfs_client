@@ -6,6 +6,8 @@
     company_realm_password: '123ADMin'
     company_ad_password: '123ADmPass'
     configure_nfs: True
+    preferred_nic: "eth1"
+    standalone_role: False
     nfs_mountpoints:
       - host: datastore.osgiliath.test
         mountpoints:

@@ -6,4 +6,4 @@ roles:
   - name: robertdebock.fail2ban
   - name: robertdebock.epel
   - name: geerlingguy.ntp
-  - name: mrlesmithjr.manage-lvm
+  - name: mrlesmithjr.manage_lvm

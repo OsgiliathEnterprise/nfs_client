@@ -2,11 +2,12 @@
 - name: Consume NFS
   hosts: consumer.osgiliath.test
   vars:
-    preferred_nic: "eth1"
     company_domain: osgiliath.test
     company_realm_password: '123ADMin'
     company_ad_password: '123ADmPass'
     configure_nfs: True
+    preferred_nic: "eth1"
+    standalone_role: False
     nfs_mountpoints:
       - host: datastore.osgiliath.test
         mountpoints:

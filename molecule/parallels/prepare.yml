@@ -6,6 +6,7 @@
         name: tcharl.nfs_client
         tasks_from: requirements.yml
       vars:
+        firewalld_zone: "public"
         secure_logs: False
         preferred_nic: "eth1"
         company_domain: osgiliath.test
@@ -16,6 +17,7 @@
   vars:
     secure_logs: False
     preferred_nic: "eth1"
+    idm_preferred_nic: "eth1"
     company_domain: osgiliath.test
     company_realm_password: '123ADMin'
     company_ad_password: '123ADmPass'
