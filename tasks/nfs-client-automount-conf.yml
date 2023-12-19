@@ -15,4 +15,4 @@
   ansible.builtin.include_tasks: nfs-client-automount-entry.yml
   loop: "{{ nfs_server.mountpoints }}"
   loop_control:
-    loop_var: mounpoint
+    loop_var: mountpoint

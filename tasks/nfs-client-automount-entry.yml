@@ -3,7 +3,7 @@
 - name: Nfs-client-automount-entry | create libvirt conf folder
   ansible.builtin.file:
     state: directory
-    dest: "{{ mounpoint.local }}"
+    dest: "{{ mountpoint.local }}"
     mode: "0755"
     owner: "root"
     group: "root"
@@ -13,9 +13,9 @@
 - name: Nfs-client-automount-entry | create automountmap for client
   ansible.builtin.shell: |
     set -o pipefail && echo '{{ company_realm_password }}' | kinit admin > /dev/null
-    ipa automountmap-add default auto.{{ hostname | default(volume_machine_hostname.stdout) + '.' + mounpoint.local | replace('/', '') }}
+    ipa automountmap-add default auto.{{ hostname | default(volume_machine_hostname.stdout) + '.' + mountpoint.local | replace('/', '') }}
   delegate_to: "{{ groups[idm_group][0] }}"
-#    ipa automountmap-add {{ mounpoint.local | replace('/', '') }} auto.{{ mounpoint.local | replace('/', '') }}
+#    ipa automountmap-add {{ mountpoint.local | replace('/', '') }} auto.{{ mountpoint.local | replace('/', '') }}
   no_log: "{{ secure_logs }}"
   failed_when: False
   changed_when: False
@@ -24,7 +24,7 @@
 - name: Nfs-client-automount-entry | create automountkey on master
   ansible.builtin.shell: |
     set -o pipefail && echo '{{ company_realm_password }}' | kinit admin > /dev/null
-    ipa automountkey-add default auto.master --key={{ mounpoint.local }} --info=auto.{{ hostname | default(volume_machine_hostname.stdout) + '.' + mounpoint.local | replace('/', '') }}
+    ipa automountkey-add default auto.master --key={{ mountpoint.local }} --info=auto.{{ hostname | default(volume_machine_hostname.stdout) + '.' + mountpoint.local | replace('/', '') }}
   delegate_to: "{{ groups[idm_group][0] }}"
   register: automountkey_added_master
   changed_when: "'Added automount key' in automountkey_added_master.stdout"
@@ -33,14 +33,30 @@
   failed_when: False
   become: true
 
-- name: Nfs-client-automount-entry | create automountkey for mountpoint
+- name: Nfs-client-automount-entry | create automountkey for secure mountpoint
   ansible.builtin.shell: |
     set -o pipefail && echo '{{ company_realm_password }}' | kinit admin > /dev/null
-    ipa automountkey-add default auto.{{ hostname | default(volume_machine_hostname.stdout) + '.' + mounpoint.local | replace('/', '') }} --key='*' --info="-fstype=nfs4,rw,sec=krb5p,soft,rsize=8192,wsize=8192 {{ nfs_server.host }}:{{ mounpoint.remote }}"
+    ipa automountkey-add default auto.{{ hostname | default(volume_machine_hostname.stdout) + '.' + mountpoint.local | replace('/', '') }} --key='*' --info="-fstype=nfs4,rw,sec=krb5p,soft,rsize=8192,wsize=8192 {{ nfs_server.host }}:{{ mountpoint.remote }}"
   delegate_to: "{{ groups[idm_group][0] }}" # the key was {{ hostname | default(volume_machine_hostname.stdout) }} but it was not really appealing for users
   no_log: "{{ secure_logs }}"
   register: automountkey_added
   changed_when: "'Added automount key' in automountkey_added.stdout"
   failed_when: False
   notify: nfs_client | handler | reload-automount
+  when: mountpoint.insecure is not defined or not mountpoint.insecure
+  become: true
+
+- name: Nfs-client-automount-entry | create automountkey for insecure mountpoint
+  ansible.builtin.shell: |
+    set -o pipefail && echo '{{ company_realm_password }}' | kinit admin > /dev/null
+    ipa automountkey-add default auto.{{ hostname | default(volume_machine_hostname.stdout) + '.' + mountpoint.local | replace('/', '') }} --key='{{ mountpoint.min_ip_to_share | ansible.utils.next_nth_usable(mountpoint.nth_ips_to_share | default(9)) }}' --info="-fstype=nfs4,rw,soft,rsize=8192,wsize=8192 {{ nfs_server.host }}:{{ mountpoint.remote }}"
+  delegate_to: "{{ groups[idm_group][0] }}" # the key was {{ hostname | default(volume_machine_hostname.stdout) }} but it was not really appealing for users
+  no_log: "{{ secure_logs }}"
+  register: automountkey_added
+  changed_when: "'Added automount key' in automountkey_added.stdout"
+  failed_when: False
+  notify: nfs_client | handler | reload-automount
+  when:
+   - mountpoint.insecure is defined
+   - mountpoint.insecure | bool
   become: true
