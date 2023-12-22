@@ -7,6 +7,7 @@
     ipa-client-automount --uninstall
     ipa-client-automount --location=default -U
   become: true
+  changed_when: false
   listen: nfs_client | handler | reload-automount
 
 - name: Handler | refresh autofs
@@ -15,6 +16,7 @@
     state: restarted
     enabled: True
   become: true
+  changed_when: false
   listen: nfs_client | handler | reload-automount
 
 - name: Handler | refresh automount
@@ -22,6 +24,7 @@
     set -o pipefail && echo '{{ company_realm_password }}' | kinit admin > /dev/null
     ipa-client-automount -U
   failed_when: false
+  changed_when: false
   become: True
   listen: nfs_client | handler | reload-automount
 
@@ -30,5 +33,6 @@
     name: "sssd"
     state: restarted
     enabled: true
+  changed_when: false
   become: true
   listen: nfs_client | handler | reload-sssd
