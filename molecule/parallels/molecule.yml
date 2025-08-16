@@ -11,7 +11,7 @@ driver:
     name: parallels
 platforms:
   - name: consumer.osgiliath.test
-    box: ${TESTBOX:-bento/fedora-38-arm64}
+    box: ${TESTBOX:-bento/fedora-42}
     provider_options:
       cpus: 2
       memory: 2048
@@ -24,7 +24,7 @@ platforms:
     groups:
       - ipaservers
   - name: datastore.osgiliath.test
-    box: ${TESTBOX:-bento/fedora-38-arm64}
+    box: ${TESTBOX:-bento/fedora-42}
     provider_options:
       cpus: 2
       memory: 2048

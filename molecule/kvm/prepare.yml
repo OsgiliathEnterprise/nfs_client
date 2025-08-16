@@ -2,6 +2,10 @@
 - name: prepare IPA
   hosts: consumer.osgiliath.test
   tasks:
+    - name: "install fedora ansible prerequisites"
+      ansible.builtin.raw: dnf install -y python3 python3-libdnf5
+      changed_when: false
+      become: true
     - include_role:
         name: tcharl.nfs_client
         tasks_from: requirements.yml
@@ -14,26 +18,31 @@
         preferred_nic: "eth1"
 - name: Expose NFS
   hosts: datastore.osgiliath.test
-  vars:
-    company_domain: osgiliath.test
-    company_realm_password: '123ADMin'
-    company_ad_password: '123ADmPass'
-    idm_preferred_nic: "eth1"
-    preferred_nic: "eth1"
-    lvm_groups:
-      - vgname: non-persistent
-        disks:
-          - /dev/sdb1
-        create: true
-        lvmetanames:
-          - lvname: nfs_exposed
-            size: 4M
+  tasks:
+    - name: "install fedora ansible prerequisites"
+      ansible.builtin.raw: dnf install -y python3 python3-libdnf5
+      changed_when: false
+      become: true
+    - include_role:
+        name: tcharl.nfs_server
+      vars:
+        company_domain: osgiliath.test
+        company_realm_password: '123ADMin'
+        company_ad_password: '123ADmPass'
+        idm_preferred_nic: "eth1"
+        preferred_nic: "eth1"
+        lvm_groups:
+          - vgname: non-persistent
+            disks:
+              - /dev/sdb1
             create: true
-            filesystem: xfs
-            expose_nfs: True
-            mntp: /var/nfs
-            mount: true
-    manage_lvm: true
-    configure_nfs: True
-  roles:
-    - role: tcharl.nfs_server
+            lvmetanames:
+              - lvname: nfs_exposed
+                size: 4M
+                create: true
+                filesystem: xfs
+                expose_nfs: True
+                mntp: /var/nfs
+                mount: true
+        manage_lvm: true
+        configure_nfs: True
