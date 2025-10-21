@@ -24,7 +24,7 @@
     enabled: True
   become: true
 
-#- name: ansible-volumes | nfs-client | iterate over mountpoints to configure mount in fstab (while we are not able to configure autofs)
+# - name: ansible-volumes | nfs-client | iterate over mountpoints to configure mount in fstab (while we are not able to configure autofs)
 #  ansible.builtin.include_tasks: nfs-client-fstab-conf.yml
 #  loop: "{{ nfs_mountpoints }}"
 #  loop_control:
