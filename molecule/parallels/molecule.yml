@@ -10,7 +10,7 @@ driver:
   provider:
     name: parallels
 platforms:
-  - name: consumer.osgiliath.test
+  - name: idm.osgiliath.test
     box: ${TESTBOX:-bento/fedora-42}
     provider_options:
       cpus: 2
@@ -23,6 +23,19 @@ platforms:
         # virtualbox__intnet: "internalnetwork"
     groups:
       - ipaservers
+  - name: consumer.osgiliath.test
+    box: ${TESTBOX:-bento/fedora-42}
+    provider_options:
+      cpus: 2
+      memory: 2048
+    interfaces:
+      - type: dhcp
+        # ip: "192.168.56.5"
+        auto_config: true
+        network_name: private_network
+        # virtualbox__intnet: "internalnetwork"
+    groups:
+      - ipaclients
   - name: datastore.osgiliath.test
     box: ${TESTBOX:-bento/fedora-42}
     provider_options:

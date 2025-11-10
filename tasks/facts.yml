@@ -1,6 +1,15 @@
 ---
 
-- name: Facts | get current hostname
+- name: Prereq | get current hostname
   ansible.builtin.command: "hostname"
-  register: volume_machine_hostname
+  register: nfs_server_current_machine_hostname
   changed_when: false
+
+- name: Facts | compute idm hostname
+  ansible.builtin.set_fact:
+    nfs_client_host: "{{ hostname | default(nfs_server_current_machine_hostname.stdout if nfs_server_current_machine_hostname.stdout.endswith(company_domain) else idm_client_default_domain_prefix + '.' + company_domain) }}"
+
+- name: Facts | debug hostname
+  ansible.builtin.set_fact:
+    msg: "{{ nfs_client_host }}"
+    verbosity: 1

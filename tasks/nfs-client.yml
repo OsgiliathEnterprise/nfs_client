@@ -3,7 +3,7 @@
   freeipa.ansible_freeipa.ipahostgroup:
     ipaadmin_password: "{{ company_realm_password }}"
     host:
-      - "{{ hostname | default(volume_machine_hostname.stdout) }}"
+      - "{{ nfs_client_host }}"
     hostgroup:
       - nfsclients
     action: member

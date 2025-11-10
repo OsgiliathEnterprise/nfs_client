@@ -10,7 +10,7 @@ driver:
   provider:
     name: virtualbox
 platforms:
-  - name: consumer.osgiliath.test
+  - name: idm.osgiliath.test
     box: ${TESTBOX:-bento/fedora-42}
     provider_options:
       cpus: 2
@@ -23,11 +23,10 @@ platforms:
         virtualbox__intnet: "internalnetwork"
     groups:
       - ipaservers
-    provider_raw_config_args:
-      - "customize ['storagectl', :id, '--name', 'IDE', '--hostiocache', 'on']"
   - name: datastore.osgiliath.test
     box: ${TESTBOX:-bento/fedora-42}
     provider_options:
+      driver: "kvm"
       cpus: 2
       memory: 2048
     interfaces:
@@ -46,6 +45,19 @@ platforms:
       - "persistent_storage.size = 10"
       - "persistent_storage.mount = false"
       - "persistent_storage.diskdevice = '/dev/sdb'"
+  - name: datastore.osgiliath.test
+    box: ${TESTBOX:-bento/fedora-42}
+    provider_options:
+      cpus: 2
+      memory: 2048
+    interfaces:
+      - type: dhcp
+        # ip: "192.168.56.5"
+        auto_config: true
+        network_name: private_network
+        virtualbox__intnet: "internalnetwork"
+    groups:
+      - ipaclients
 provisioner:
   name: ansible
 verifier:
